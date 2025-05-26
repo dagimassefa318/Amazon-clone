@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Landing from "./pages/Landing/Landing";
-import SignIn from "./pages/Auth/SignIn";
+import Landing from "./Pages/Landing/Landing";
+import SignIn from "./Pages/Auth/SignIn";
 import Payment from "./pages/Payment/Payment";
-import Orders from "./pages/Orders/Orders";
-import Cart from "./pages/Cart/Cart";
-import Results from "./pages/Results/Results";
+import Orders from "./Pages/Orders/Orders";
+import Cart from "./Pages/Cart/Cart";
+import Results from "./Pages/Results/Results";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 
 function Routing() {

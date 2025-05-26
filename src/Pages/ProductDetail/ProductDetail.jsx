@@ -4,13 +4,14 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { productUrl } from "../../Api/endPoints";
 import ProductCard from "../../components/Product/ProductCard";
-
+// 
 const ProductDetail = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    
     axios
       .get(`${productUrl}/${productId}`)
       .then((res) => {
