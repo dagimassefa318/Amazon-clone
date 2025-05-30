@@ -6,12 +6,19 @@ import { BsCart3 } from "react-icons/bs";
 import classes from "./Header.module.css";
 import LowerHeader from "./LowerHeader";
 import { DataContext } from "../DataProvider/DataProvider";
+// import { auth } from "../../Pages/Auth";
+
 
 const Header = () => {
-  const [{ basket }, dispatch] = useContext(DataContext);
+  const [{user, basket }, dispatch] = useContext(DataContext);
   console.log(basket.length);
+  
+  const totlaItem = basket.reduce((amount, item) => {
+    return item.amount + amount;
+  }, 0);
+  
   return (
-    <section section className= {classes.sticky}>
+    <section section className={classes.sticky}>
       <section>
         <div className={classes.header_container}>
           <div className={classes.logo_container}>
@@ -71,7 +78,7 @@ const Header = () => {
             </Link>
             <Link to="./cart" className={classes.cart}>
               <BsCart3 size={35} />
-              <span>{basket.length}</span>
+              <span>{totlaItem}</span>
             </Link>
           </div>
         </div>
