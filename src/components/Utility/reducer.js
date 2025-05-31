@@ -1,6 +1,8 @@
 import { Type } from "./action.type";
+const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
 export const initializeState = {
-  basket: [],
+  basket: savedBasket,
+  user: null,
 };
 
 export const reducer = (state, action) => {
@@ -11,14 +13,20 @@ export const reducer = (state, action) => {
         (item) => item.id === action.item.id
       );
       if (!existingItem) {
+        const updatedBasket = [...state.basket, { ...action.item, amount: 1 }];
+
+        // Save the updated basket to local storage
+        localStorage.setItem("basket", JSON.stringify(updatedBasket));
+
         return {
           ...state,
-          basket: [...state.basket, { ...action.item, amount: 1 }],
+          basket: updatedBasket, // Update the state with the new basket
         };
       } else {
+        // If the item exists, increase its amount
         const updatedBasket = state.basket.map((item) => {
           return item.id === action.item.id
-            ? { ...item, amount: item.amount + 1 }
+            ? { ...item, amount: item.amount + 1 } // Increase amount by 1
             : item;
         });
 
@@ -42,12 +50,21 @@ export const reducer = (state, action) => {
           newBasket.splice(index, 1);
         }
       }
+      localStorage.setItem("basket", JSON.stringify(newBasket));
       return {
         ...state,
         basket: newBasket,
       };
 
+    case Type.EMPTY_BASKET:
+      // Empty the basket and clear it from local storage
+      localStorage.setItem("basket", JSON.stringify([]));
+      return {
+        ...state,
+        basket: [], // Set the basket to an empty array
+      };
+
     default:
-      return state;
+      return state; // Return the current state by default if no case matches
   }
-};
+  }
