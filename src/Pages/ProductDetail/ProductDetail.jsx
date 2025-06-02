@@ -1,39 +1,60 @@
 import React, { useEffect, useState } from "react";
-import LayOut from "../../components/LayOut/LayOut";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { productUrl } from "../../Api/endPoints";
-import ProductCard from "../../components/Product/ProductCard";
-// 
-const ProductDetail = () => {
-  const { productId } = useParams();
-  const [product, setProduct] = useState(null);
-  const [error, setError] = useState(null);
 
+import { productUrl as ProductUrl } from "/src/Api/endPoints.js";
+
+
+import ProductCard from "../../components/Product/ProductCard";
+import Loader from "../../components/Loader/Loader";
+import LayOut from "../../components/LayOut/LayOut";
+//
+
+function ProductDetail() {
+  const { productId } = useParams();
+  const [products, setProduct] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  console.log("poduct detail page called", useParams());
+
+  console.log("eshi ezi dersual");
   useEffect(() => {
-    
+    //https://fakestoreapi.com/products/1
+    //${ProductUrl}/products/${productId}
+    setIsLoading(true);
     axios
-      .get(`${productUrl}/${productId}`)
+      .get(`https://fakestoreapi.com/products`)
       .then((res) => {
-        setProduct(res.data);
-        setError(null);
+        let request = res.data.filter((product) => {
+          return product.id == productId;
+        });
+        setProduct(request);
+        setIsLoading(false);
+        console.log("the fetched one", request);
       })
       .catch((err) => {
-        console.error(err);
-        setError("Failed to load product");
+        console.log(err);
+        setIsLoading(false);
       });
-  }, [productId]);
-
+  }, []);
+  console.log("this is products", products);
   return (
     <LayOut>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {product ? (
-        <ProductCard product={product} />
+      {isLoading ? (
+        <Loader />
       ) : (
-        <p>Loading product details...</p>
+        products?.map((product) => {
+          return (
+            <ProductCard
+              key={product.id}
+              product={product}
+              flex={true}
+              renderAdd={true}
+            />
+          );
+        })
       )}
     </LayOut>
   );
-};
+}
 
 export default ProductDetail;

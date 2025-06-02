@@ -1,84 +1,82 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { IoLocationOutline } from "react-icons/io5";
-import { FaSearch } from "react-icons/fa";
-import { BsCart3 } from "react-icons/bs";
 import classes from "./Header.module.css";
+import { Link } from "react-router-dom";
 import LowerHeader from "./LowerHeader";
 import { DataContext } from "../DataProvider/DataProvider";
-// import { auth } from "../../Pages/Auth";
+import { auth } from "../../components/Utility/firebase";
+import { SlLocationPin } from "react-icons/sl";
+import { BsSearch } from "react-icons/bs";
+import { BiCart } from "react-icons/bi";
 
 
-const Header = () => {
-  const [{user, basket }, dispatch] = useContext(DataContext);
-  console.log(basket.length);
-  
-  const totlaItem = basket.reduce((amount, item) => {
+
+
+function Header() {
+  const [{ user, basket }, dispatch] = useContext(DataContext);
+  const totalItem = basket?.reduce((amount, item) => {
     return item.amount + amount;
   }, 0);
-  
+  console.log(basket);
   return (
-    <section section className={classes.sticky}>
+    <section className={classes.fixed}>
       <section>
-        <div className={classes.header_container}>
-          <div className={classes.logo_container}>
-            {/* logo */}
+        <div className={classes.header__container}>
+          <div className={classes.logo__container}>
             <Link to="/">
               <img
                 src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
-                alt="Amazon logo"
+                alt="amazon logo"
               />
             </Link>
-
-            {/* delivery */}
             <div className={classes.delivery}>
               <span>
-                <IoLocationOutline />
+                <SlLocationPin />
               </span>
               <div>
-                <p>Deliver to </p>
-                <span>Ethiopia</span>
+                <p>Deliver to</p>
+                <span>Maryland</span>
               </div>
             </div>
           </div>
-          {/* serch bar */}
           <div className={classes.search}>
             <select name="" id="">
               <option value="">All</option>
             </select>
-            <input type="text" name="" id="" placeholder="Search products" />
-            <FaSearch />
+            <input type="text" name="" id="" placeholder="search Amazon" />
+            <BsSearch size={38} />
           </div>
-          {/* order section  */}
-          <div className={classes.order_container}>
-            <Link to="#" className={classes.language}>
-              {" "}
-              {/* right side link */}
+          <div className={classes.order__container}>
+            <Link to="" className={classes.language}>
               <img
-                src="https://pngimg.com/uploads/flags/small/flags_PNG14592.png"
-                alt="USA Flag"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Flag_of_the_United_States.png/800px-Flag_of_the_United_States.png"
+                alt="USA"
               />
               <select name="" id="">
                 <option value="">EN</option>
               </select>
             </Link>
-
-            <Link to="/auth">
-              {" "}
-              <p> Sign in</p>
-              <span>
-                <option value="">Account & Lists</option>
-              </span>
+            <Link to={!user && "/auth"}>
+              <div>
+                {user ? (
+                  <>
+                    <p>Hello {user?.email?.split("@")[0]}</p>
+                    <span onClick={() => auth.signOut()}>Sign Out</span>
+                  </>
+                ) : (
+                  <>
+                    <p>Hello, Sign In</p>
+                    <span>Account & Lists</span>
+                  </>
+                )}
+              </div>
             </Link>
-
-            {/* orders */}
             <Link to="/orders">
-              <p>Returns</p>
+              <p>returns</p>
               <span>& Orders</span>
             </Link>
-            <Link to="./cart" className={classes.cart}>
-              <BsCart3 size={35} />
-              <span>{totlaItem}</span>
+            <Link to="/cart" className={classes.cart}>
+              <BiCart size={35} />
+              <span>{totalItem}</span>
             </Link>
           </div>
         </div>
@@ -86,6 +84,6 @@ const Header = () => {
       <LowerHeader />
     </section>
   );
-};
+}
 
 export default Header;

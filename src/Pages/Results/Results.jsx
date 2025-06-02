@@ -1,40 +1,54 @@
-import React, { useEffect, useState } from "react";
-import classes from "./Results.module.css";
-import LayOut from "../../components/LayOut/LayOut";
+
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { productUrl } from "../../Api/endPoints";
+import classes from "./Results.module.css";
 import ProductCard from "../../components/Product/ProductCard";
+import { productUrl as ProductUrl } from "/src/Api/endPoints.js";
 
-const Results = () => {
+import Loader from "../../components/Loader/Loader";
+import LayOut from "../../components/LayOut/LayOut";
+
+
+function Results() {
+  const [results, seResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { categoryName } = useParams();
-  const [Results, setResults] = useState([]);
   useEffect(() => {
+    setIsLoading(true);
     axios
-      .get(`${productUrl}/category/${categoryName}`)
+      .get(`${ProductUrl}/products/category/${categoryName}`)
       .then((res) => {
-        setResults(res.data);
-        console.log(res.data);
+        seResults(res.data);
+        setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("err");
+        setIsLoading(false);
       });
   }, []);
   return (
     <LayOut>
       <section>
-        <h1 style={{ padding: "30px" }}>Results</h1>
-        <br />
-        <p style={{ padding: "30px" }}>Category/{categoryName}</p>
-        <br />
-        <div className={classes.products_conatiner}>
-          {Results?.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <h1 style={{ padding: "30px" }}>Results </h1>
+        <p>Category / {categoryName}</p>
+        <hr />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className={classes.products_container}>
+            {results?.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                renderAdd={true}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </LayOut>
   );
-};
+}
 
 export default Results;
