@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import classes from "./Payment.module.css";
-// import LayOut from "../../Components/LayOut/LayOut";
 import { DataContext } from "../../components/DataProvider/DataProvider";
 import ProductCard from "../../components/Product/ProductCard";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
@@ -94,8 +93,8 @@ function Payment() {
           <h3>Delivery Address</h3>
           <div>
             <div>{user?.email}</div>
-            <div>123 React Lane</div>
-            <div>Chicago, IL</div>
+            <div>22 bole road</div>
+            <div> Ethiopia addis ababa</div>
           </div>
         </div>
         <hr />
