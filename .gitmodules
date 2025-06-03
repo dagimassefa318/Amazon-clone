@@ -1,0 +1,3 @@
+[submodule "api-amazon/amazon-api"]
+	path = api-amazon/amazon-api
+	url = https://github.com/dagimassefa318/amazon-api
