@@ -6,7 +6,7 @@ import {
   redirect,
 } from "react-router-dom";
 import Landing from "./pages/Landing/Landing";
-import Auth from "./pages/Auth/Auth";
+import Auth from "./Pages/Auth/Auth";
 import Payment from "./Pages/Payment/Payment";
 import Orders from "./pages/Orders/Orders";
 import Cart from "./pages/Cart/Cart";

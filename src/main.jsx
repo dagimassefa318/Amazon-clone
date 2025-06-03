@@ -6,9 +6,9 @@ import { DataProvider } from "./components/DataProvider/DataProvider.jsx";
 import { initializeState,reducer } from "../src/components/Utility/reducer.js";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <DataProvider reducer={reducer} initialState={initializeState}>
       <App />
     </DataProvider>
-  </StrictMode>
+  // </StrictMode>
 );
