@@ -5,7 +5,7 @@ import {
   Route,
   redirect,
 } from "react-router-dom";
-import Landing from "./pages/Landing/Landing";
+import Landing from "./Pages/Landing/Landing.jsx";
 import Auth from "./Pages/Auth/Auth";
 import Payment from "./Pages/Payment/Payment";
 import Orders from "./pages/Orders/Orders";
